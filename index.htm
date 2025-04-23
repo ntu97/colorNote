@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>备忘录</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4A90E2">
+    <link rel="icon" href="img/icon-192.png">
+    <link rel="apple-touch-icon" href="img/icon-192.png">
+</head>
+<body>
+    <header>
+        <h1>我的备忘录</h1>
+        <div class="header-buttons">
+            <button id="statistics-btn">统计</button>
+            <button id="add-note-btn">+ 新建</button>
+        </div>
+    </header>
+    
+    <main>
+        <div id="notes-container" class="notes-container">
+            <!-- 笔记将在这里动态添加 -->
+        </div>
+
+        <div id="editor" class="hidden">
+            <input type="text" id="note-title" placeholder="标题">
+            <textarea id="note-content" placeholder="内容..."></textarea>
+            <div class="priority-selector">
+                <span>重要性：</span>
+                <div class="priority-buttons">
+                    <button class="priority-btn" data-priority="red">高</button>
+                    <button class="priority-btn" data-priority="yellow">中</button>
+                    <button class="priority-btn" data-priority="blue">低</button>
+                </div>
+            </div>
+            <div class="editor-buttons">
+                <button id="save-note">保存</button>
+                <button id="cancel-edit">取消</button>
+            </div>
+        </div>
+
+        <div id="statistics-panel" class="hidden">
+            <h2>笔记统计</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <h3>总笔记数</h3>
+                    <p id="total-notes">0</p>
+                </div>
+                <div class="stat-item">
+                    <h3>按重要性分布</h3>
+                    <p>高重要性: <span id="high-priority">0</span></p>
+                    <p>中重要性: <span id="medium-priority">0</span></p>
+                    <p>低重要性: <span id="low-priority">0</span></p>
+                </div>
+                <div class="stat-item">
+                    <h3>本周新增</h3>
+                    <p id="weekly-notes">0</p>
+                </div>
+            </div>
+            <button id="close-stats">关闭</button>
+        </div>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="js/database.js"></script>
+    <script src="js/notes.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // 注册 Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker 注册成功:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker 注册失败:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
